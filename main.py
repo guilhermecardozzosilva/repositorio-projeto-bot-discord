@@ -1,4 +1,5 @@
 Exemplo de código:
+from pysentimiento import create_analyzer
 
 # ==========================================
 # ESTRUTURA PRINCIPAL - BOT ANTI-TOXICIDADE
@@ -31,11 +32,17 @@ def verificar_toxicidade_direta(texto, lista_negra):
     pass
 
 def analisar_sentimento_ia(texto):
-    """
-    Recebe uma string (texto) e analisa a semântica/sentimento.
-    Retorna um valor float de -1.0 (muito tóxico) a 1.0 (muito positivo).
-    """
-    # TODO: Dev 3 fará a lógica semântica ou chamada de API aqui
+    emoção = create_analyzer(task='emotion', lang='pt')
+    ironia = create_analyzer(task='irony', lang='pt')
+
+    rsl_emoção = emoção.predict(texto)
+    rsl_ironia = ironia.predict(texto)
+
+    if rsl_ironia.output == 'ironic':
+        pass #não faz nada pois é ironia
+    elif rsl_ironia.output == 'not ironic' and rsl_emoção.output == 'anger':
+        print('discurso de ódio, pode conter palavrão') #ainda tem que ver o que pode fazer aqui
+    
     pass
 
 
